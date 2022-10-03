@@ -1,0 +1,238 @@
+{% extends 'formulario.html' %}
+{% load static %}
+
+{% block js %}
+{#    <script src="{% static 'cliente/js/form.js' %}"></script>#}
+{% endblock %}
+
+{% block controls %}
+    {% csrf_token %}
+    {% if form.errors %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <strong>Error al Grabar</strong> {{ form.errors }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+    {% endif %}
+    <input type="hidden" name="action" value="{{ action }}">
+
+    <h4 class="fw-bold fst-italic text-secondary text-center">DATOS PERSONALES</h4>
+    <hr class="bg-success border-5 border-top border-success">
+        <div class="form-group">
+            <label class="fw-bold" >Nombre:</label>
+            {{ form.nombres }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Cedula:</label>
+            {{ form.cedula }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Fecha Nacimiento:</label>
+            {{ form.fecha_nacimiento }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Género:</label>
+            {{ form.genero }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >País:</label>
+            {{ form.pais }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Provincia:</label>
+            {{ form.provincia }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Ciudad:</label>
+            {{ form.ciudad }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Estado Civil:</label>
+            {{ form.estado_civil }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Email:</label>
+            {{ form.email }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Dirección:</label>
+            {{ form.direccion }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Teléfono:</label>
+            {{ form.telefonos }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Fecha IESS:</label>
+            {{ form.fecha_IESS }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Tipo Contrato:</label>
+            {{ form.tipo_Contrato }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Fecha Ingreso:</label>
+            {{ form.fecha_Ingreso }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Foto:</label>
+            {{ form.foto }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Cargo:</label>
+            {{ form.cargo }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Departamento:</label>
+            {{ form.departamento }}
+        </div>
+        <div class="form-group">
+            <label class="fw-bold" >Estado</label>
+            {{ form.estado }}
+        </div>
+
+    <hr class="bg-success border-5 border-top border-success">
+    <h4 class="fw-bold fst-italic text-secondary text-center">SUELDO</h4>
+    <hr class="bg-success border-5 border-top border-success">
+        <table class="table table-info table-striped table-bordered border-dark text-center">
+            <thead>
+                <tr>
+                  <th scope="col" style="width: 5%;">#</th>
+                  <th scope="col" style="width: 10%;">Fecha</th>
+                  <th scope="col" style="width: 10%;">Sueldo</th>
+                  <th scope="col" style="width: 10%;">Estado</th>
+                  <th scope="col" style="width: 10%;">Opciones</th>
+                </tr>
+              </thead>
+               <tbody id="tablaSue">
+
+               </tbody>
+
+            {% for sue in sueldos %}
+                <tbody>
+                    <tr class="align-middle table-info table-bordered border-dark text-center">
+                        <td>{{ forloop.counter}}</td>
+                        <td>{{ sue.fecha }}</td>
+                        <td>{{ sue.sueldo }}</td>
+                        <td>{% if sue.estado %}
+                                ✅ Activo
+                            {% else %}
+                                🚫 Anulada
+                            {% endif %}
+                        <td class="acciones">
+                            <a href="{% url 'ficha_Personal:deleteSueldo' sue.id %}">❌</a>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        <div>
+            <a class="btn btn-outline-info" href="{% url 'ficha_Personal:añadirSueldo' %}"><b>➕ Agregar</b></a>
+        </div>
+    <hr class="bg-success border-5 border-top border-success">
+    <h4 class="fw-bold fst-italic text-secondary text-center">CONTACTO DE EMERGENCIAS</h4>
+    <hr class="bg-success border-5 border-top border-success">
+        <table class="table table-info table-striped table-bordered border-dark col-md-3 text-center">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col" style="width: 5px;">#</th>
+                    <th scope="col" style="width: 20px;">Nombre</th>
+                    <th scope="col" style="width: 10%;">Cèdula</th>
+                    <th scope="col" style="width: 10%;">Teléfono</th>
+                    <th scope="col" style="width: 10%;">Parentesco</th>
+                    <th scope="col" style="width: 20%;">Dirección</th>
+                    <th scope="col" style="width: 10%;">Opciones</th>
+                </tr>
+            </thead>
+
+            {% for contaEmer in contactoEmergencias %}
+                <tbody>
+                <tr class="align-middle table-info table-bordered border-dark text-center">
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ contaEmer.nombre }}</td>
+                    <td>{{ contaEmer.cedula }}</td>
+                    <td>{{ contaEmer.telefonos }}</td>
+                    <td>{{ contaEmer.parentesco }}</td>
+                    <td>{{ contaEmer.direccion }}</td>
+                    <td class="acciones">
+                        <a href="{% url 'ficha_Personal:deleteContactoEmergencia' contaEmer.id %}">❌</a>
+                    </td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        <div>
+            <a class="btn btn-outline-info" href="{% url 'ficha_Personal:crearContactoEmergencias' %}"><b>➕ Agregar</b></a>
+        </div>
+    <hr class="bg-success border-5 border-top border-success">
+    <h4 class="fw-bold fst-italic text-secondary text-center">INFORMACIÓN ACADÉMICA</h4>
+    <hr class="bg-success border-5 border-top border-success">
+        <table class="table table-info table-striped table-bordered border-dark text-center">
+            <thead>
+                <tr>
+                  <th scope="col" style="width: 5%;">#</th>
+                  <th scope="col" style="width: 10%;">Fecha Inicio</th>
+                  <th scope="col" style="width: 10%;">Fecha Fin</th>
+                  <th scope="col" style="width: 10%;">Institución</th>
+                  <th scope="col" style="width: 10%;">Título</th>
+                  <th scope="col" style="width: 10%;">Opciones</th>
+                </tr>
+              </thead>
+
+            {% for infoAcade in infoAcademicas %}
+                <tbody>
+                    <tr class="align-middle table-info table-bordered border-dark text-center">
+                        <td>{{forloop.counter}}</td>
+                        <td>{{ infoAcade.fecha_Inicio }}</td>
+                        <td>{{ infoAcade.fecha_Fin }}</td>
+                        <td>{{ infoAcade.institucion }}</td>
+                        <td>{{ infoAcade.titulo }}</td>
+                        <td class="acciones">
+                            <a href="{% url 'ficha_Personal:deleteInfoAcademica' infoAcade.id %}">❌</a>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        <div>
+            <a class="btn btn-outline-info" href="{% url 'ficha_Personal:crearInfoAcademica' %}"><b>➕ Agregar</b></a>
+        </div>
+    <hr class="bg-success border-5 border-top border-success">
+    <h4 class="fw-bold fst-italic text-secondary text-center">CAPACITACIONES</h4>
+    <hr class="bg-success border-5 border-top border-success">
+        <table class="table table-info table-striped table-bordered border-dark">
+            <thead>
+                <tr class="text-center">
+                    <th scope="col" style="width: 5%;">#</th>
+                    <th scope="col" style="width: 15%;">Certificado</th>
+                    <th scope="col" style="width: 10%;">Fecha Inicio</th>
+                    <th scope="col" style="width: 10%;">Fecha Fin</th>
+                    <th scope="col" style="width: 10%;">Duraciono</th>
+                    <th scope="col" style="width: 10%;">Opciones</th>
+                </tr>
+            </thead>
+
+            {% for cap in capacitaciones %}
+                <tbody>
+                    <tr class="align-middle table-warning">
+                        <td>{{forloop.counter}}</td>
+                        <td>{{ cap.certificado }}</td>
+                        <td>{{ cap.fecha_Inicio }}</td>
+                        <td>{{ cap.fecha_Fin }}</td>
+                        <td>{{ cap.duracion }}</td>
+                        <td class="acciones">
+                            <a href="{% url 'ficha_Personal:deleteCapacitaciones' cap.id %}">❌</a>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        <div>
+            <a class="btn btn-outline-info" href="{% url 'ficha_Personal:crearCapacitaciones' %}"><b>➕ Agregar</b></a>
+        </div>
+
+    <output id="idImgContenedor" style="width: 200px !important;"></output>
+{% endblock %}
+

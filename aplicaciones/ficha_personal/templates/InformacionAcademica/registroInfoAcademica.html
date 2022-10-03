@@ -1,0 +1,39 @@
+{% extends 'boton_agr_reg.html' %}
+{% load static %}
+
+{% block controls %}
+    <h4 class="fw-bold fst-italic text-secondary text-center">INFORMACION ACADEMICA</h4>
+    <hr class="bg-success border-4 border-top border-success">
+    <table class="table table-info table-striped table-bordered border-dark text-center">
+    {% block columns %}
+        <thead>
+            <tr>
+                <th scope="col" style="width: 5%;">#</th>
+                <th scope="col" style="width: 10%;">Fecha Inicio</th>
+                <th scope="col" style="width: 10%;">Fecha Fin</th>
+                <th scope="col" style="width: 10%;">Institución</th>
+                <th scope="col" style="width: 10%;">Título</th>
+                <th scope="col" style="width: 10%;">Opciones</th>
+            </tr>
+        </thead>
+    {% endblock %}
+    {% block rows %}
+        {% for infoAcade in infoAcademicas %}
+            <tbody>
+                <tr class="align-middle table-info table-bordered border-dark text-center">
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ infoAcade.fecha_Inicio }}</td>
+                    <td>{{ infoAcade.fecha_Fin }}</td>
+                    <td>{{ infoAcade.institucion }}</td>
+                    <td>{{ infoAcade.titulo }}</td>
+                    <td class="acciones">
+                        <a href="{% url 'ficha_Personal:actualizarInfoAcademica' infoAcade.id %}">✏️</a>
+                        <a href="{% url 'ficha_Personal:deleteInfoAcademica' infoAcade.id %}">❌</a>
+                    </td>
+                </tr>
+            </tbody>
+        {% endfor %}
+    {% endblock %}
+        </table>
+
+{% endblock %}

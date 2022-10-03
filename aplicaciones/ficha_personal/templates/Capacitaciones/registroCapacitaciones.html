@@ -1,0 +1,38 @@
+{% extends 'boton_agr_reg.html' %}
+{% load static %}
+
+{% block controls %}
+    <h4 class="fw-bold fst-italic text-secondary text-center">CAPACITACIONES</h4>
+    <hr class="bg-success border-4 border-top border-success">
+    <table class="table table-info table-striped table-bordered border-dark">
+    {% block columns %}
+            <thead>
+                <tr class="text-center">
+                    <th scope="col" style="width: 5%;">#</th>
+                    <th scope="col" style="width: 15%;">Certificado</th>
+                    <th scope="col" style="width: 10%;">Fecha Inicio</th>
+                    <th scope="col" style="width: 10%;">Fecha Fin</th>
+                    <th scope="col" style="width: 10%;">Duraciono</th>
+                    <th scope="col" style="width: 10%;">Opciones</th>
+                </tr>
+            </thead>
+    {% endblock %}
+    {% block rows %}
+        {% for cap in capacitaciones %}
+            <tbody>
+                <tr class="align-middle table-warning">
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ cap.certificado }}</td>
+                    <td>{{ cap.fecha_Inicio }}</td>
+                    <td>{{ cap.fecha_Fin }}</td>
+                    <td>{{ cap.duracion }}</td>
+                    <td class="acciones">
+                        <a href="{% url 'ficha_Personal:actualizarCapacitaciones' cap.id %}">✏️</a>
+                        <a href="{% url 'ficha_Personal:deleteCapacitaciones' cap.id %}">❌</a>
+                    </td>
+                </tr>
+            </tbody>
+        {% endfor %}
+    {% endblock %}
+    </table>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'boton_agr_reg.html' %}
+{% load static %}
+
+{% block controls %}
+    <h4 class="fw-bold fst-italic text-secondary text-center">INFORMACION ACADEMICA</h4>
+    <hr class="bg-success border-4 border-top border-success">
+    <table class="table table-info table-striped table-bordered border-dark text-center">
+    {% block columns %}
+        <thead>
+        <tr>
+            <th scope="col" style="width: 5%;">#</th>
+            <th scope="col" style="width: 10%;">Fecha</th>
+            <th scope="col" style="width: 10%;">Sueldo</th>
+            <th scope="col" style="width: 10%;">Estado</th>
+            <th scope="col" style="width: 10%;">Opciones</th>
+        </tr>
+        </thead>
+    {% endblock %}
+    {% block rows %}
+        {% for sue in sueldos %}
+            <tbody>
+                <tr class="align-middle table-info table-bordered border-dark text-center">
+                    <td>{{ forloop.counter}}</td>
+                    <td>{{ sue.fecha }}</td>
+                    <td>{{ sue.sueldo }}</td>
+                    <td>{% if sue.estado %}
+                            ✅ Activo
+                        {% else %}
+                            🚫 Anulada
+                        {% endif %}
+                    <td class="acciones">
+                        <a href="{% url 'ficha_Personal:actualizarSueldo' sue.id %}">✏️</a>
+                        <a href="{% url 'ficha_Personal:deleteSueldo' sue.id %}">❌</a>
+                    </td>
+                </tr>
+            </tbody>
+        {% endfor %}
+    {% endblock %}
+        </table>
+
+{% endblock %}
